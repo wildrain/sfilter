@@ -98,6 +98,7 @@ final class SFilter
         new SFilter\Generator();
         new SFilter\Customizer();
         new SFilter\ProductBuilder();
+        new SFilter\Product();
         if (is_admin()) {
             new SFilter\Admin();
         } else {

@@ -1,0 +1,46 @@
+.sf-product-specs,
+.sf-product-cross-reference,
+.sf-product-application {
+    padding: 20px 0;
+}
+
+.sf-specs-table,
+.sf-cross-reference-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.sf-specs-table th,
+.sf-specs-table td,
+.sf-cross-reference-table th,
+.sf-cross-reference-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.sf-specs-table th,
+.sf-cross-reference-table th {
+    font-weight: 600;
+    background-color: #f8f8f8;
+}
+
+.sf-specs-table th {
+    width: 30%;
+}
+
+.sf-cross-reference-table th:first-child {
+    width: 30%;
+}
+
+.sf-specs-table tr:last-child th,
+.sf-specs-table tr:last-child td,
+.sf-cross-reference-table tr:last-child th,
+.sf-cross-reference-table tr:last-child td {
+    border-bottom: none;
+}
+
+.sf-specs-table tr:hover td,
+.sf-cross-reference-table tbody tr:hover td {
+    background-color: #fafafa;
+}
