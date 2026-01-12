@@ -97,6 +97,7 @@ final class SFilter
         new SFilter\Load_Elementor();
         new SFilter\Generator();
         new SFilter\Customizer();
+        new SFilter\ProductBuilder();
         if (is_admin()) {
             new SFilter\Admin();
         } else {
