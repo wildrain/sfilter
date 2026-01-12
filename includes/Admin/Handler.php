@@ -9,7 +9,8 @@ class Handler
      */
     function __construct()
     {
-        add_filter('use_block_editor_for_post_type', [$this, 'disable_gutenberg_for_movie'], 10, 2);
+        // add_filter('use_block_editor_for_post_type', [$this, 'disable_gutenberg_for_movie'], 10, 2);
+        add_filter('turbo_tgmpa_configs_plugins', [$this, 'disable_tgm_notices']);
     }
 
     /**
@@ -22,5 +23,13 @@ class Handler
     public function disable_gutenberg_for_movie($current_status, $post_type)
     {
         return false;
+    }
+
+    public function disable_tgm_notices($config)
+    {
+        // Disable TGM plugin notices
+        $config['has_notices'] = false;
+
+        return $config;
     }
 }
