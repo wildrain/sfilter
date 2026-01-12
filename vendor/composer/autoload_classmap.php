@@ -31,6 +31,7 @@ return array(
     'SFilter\\ProductBuilder\\Assets' => $baseDir . '/includes/ProductBuilder/Assets.php',
     'SFilter\\ProductBuilder\\Metabox' => $baseDir . '/includes/ProductBuilder/Metabox.php',
     'SFilter\\ProductBuilder\\Search' => $baseDir . '/includes/ProductBuilder/Search.php',
+    'SFilter\\Product\\Assets' => $baseDir . '/includes/Product/Assets.php',
     'SFilter\\Product\\Tabs' => $baseDir . '/includes/Product/Tabs.php',
     'SFilter\\Traits\\Test' => $baseDir . '/includes/Traits/Test.php',
     'Stringable' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',

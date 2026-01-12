@@ -112,6 +112,7 @@ class ComposerStaticInitb59b953b3d40623fd8ecf31750cfaa4c
         'SFilter\\ProductBuilder\\Assets' => __DIR__ . '/../..' . '/includes/ProductBuilder/Assets.php',
         'SFilter\\ProductBuilder\\Metabox' => __DIR__ . '/../..' . '/includes/ProductBuilder/Metabox.php',
         'SFilter\\ProductBuilder\\Search' => __DIR__ . '/../..' . '/includes/ProductBuilder/Search.php',
+        'SFilter\\Product\\Assets' => __DIR__ . '/../..' . '/includes/Product/Assets.php',
         'SFilter\\Product\\Tabs' => __DIR__ . '/../..' . '/includes/Product/Tabs.php',
         'SFilter\\Traits\\Test' => __DIR__ . '/../..' . '/includes/Traits/Test.php',
         'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
