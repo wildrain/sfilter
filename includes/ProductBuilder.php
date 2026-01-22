@@ -10,6 +10,7 @@ class ProductBuilder
             new ProductBuilder\Metabox();
             new ProductBuilder\ApplicationMetabox();
             new ProductBuilder\Assets();
+            new ProductBuilder\InventoryFields();
         }
     }
 }
