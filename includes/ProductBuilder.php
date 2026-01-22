@@ -8,6 +8,7 @@ class ProductBuilder
     {
         if (is_admin()) {
             new ProductBuilder\Metabox();
+            new ProductBuilder\ApplicationMetabox();
             new ProductBuilder\Assets();
         }
     }

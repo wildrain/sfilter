@@ -109,6 +109,7 @@ class ComposerStaticInitb59b953b3d40623fd8ecf31750cfaa4c
         'SFilter\\Load_Elementor' => __DIR__ . '/../..' . '/includes/Elementor.php',
         'SFilter\\Product' => __DIR__ . '/../..' . '/includes/Product.php',
         'SFilter\\ProductBuilder' => __DIR__ . '/../..' . '/includes/ProductBuilder.php',
+        'SFilter\\ProductBuilder\\ApplicationMetabox' => __DIR__ . '/../..' . '/includes/ProductBuilder/ApplicationMetabox.php',
         'SFilter\\ProductBuilder\\Assets' => __DIR__ . '/../..' . '/includes/ProductBuilder/Assets.php',
         'SFilter\\ProductBuilder\\Metabox' => __DIR__ . '/../..' . '/includes/ProductBuilder/Metabox.php',
         'SFilter\\ProductBuilder\\Search' => __DIR__ . '/../..' . '/includes/ProductBuilder/Search.php',

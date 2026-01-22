@@ -4,6 +4,7 @@ namespace SFilter\Product;
 
 use SFilter\Generator;
 use SFilter\ProductBuilder\Metabox;
+use SFilter\ProductBuilder\ApplicationMetabox;
 
 class Tabs
 {
@@ -60,6 +61,10 @@ class Tabs
 
     public function render_application_tab()
     {
+        global $product;
+        $product_id = $product->get_id();
+        $applications = ApplicationMetabox::get_applications($product_id);
+
         include __DIR__ . '/views/tab-application.php';
     }
 }

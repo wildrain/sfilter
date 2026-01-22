@@ -34,3 +34,17 @@
     background: #d63638;
     color: #fff;
 }
+
+/* Application metabox */
+.sf-pb-application .sf-pb-table th:first-child,
+.sf-pb-application .sf-pb-table td:first-child {
+    width: auto;
+}
+
+.sf-pb-metabox .sf-pb-col-year {
+    width: 100px;
+}
+
+.sf-pb-application input[type="number"] {
+    width: 100%;
+}

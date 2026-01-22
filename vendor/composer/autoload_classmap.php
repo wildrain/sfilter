@@ -28,6 +28,7 @@ return array(
     'SFilter\\Load_Elementor' => $baseDir . '/includes/Elementor.php',
     'SFilter\\Product' => $baseDir . '/includes/Product.php',
     'SFilter\\ProductBuilder' => $baseDir . '/includes/ProductBuilder.php',
+    'SFilter\\ProductBuilder\\ApplicationMetabox' => $baseDir . '/includes/ProductBuilder/ApplicationMetabox.php',
     'SFilter\\ProductBuilder\\Assets' => $baseDir . '/includes/ProductBuilder/Assets.php',
     'SFilter\\ProductBuilder\\Metabox' => $baseDir . '/includes/ProductBuilder/Metabox.php',
     'SFilter\\ProductBuilder\\Search' => $baseDir . '/includes/ProductBuilder/Search.php',
