@@ -3,6 +3,8 @@
 namespace SFilter;
 
 use Elementor\Plugin;
+use SFilter\Elementor\Widgets\PartSearch\Assets as PartSearchAssets;
+use SFilter\Elementor\Widgets\PartSearch\PartSearch;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -75,7 +77,11 @@ class Load_Elementor
     {
         $this->includeWidgetsFiles();
 
+        // Register legacy widgets from includes/Elementor/
         Plugin::instance()->widgets_manager->register(new Elementor\Hello_World());
+
+        // Register modular widgets
+        Plugin::instance()->widgets_manager->register(new PartSearch());
     }
 
     /**
@@ -90,7 +96,7 @@ class Load_Elementor
     }
 
     /**
-     * SFilter scripts
+     * SFilter scripts (centralized scripts only)
      *
      * @return array
      */
@@ -106,7 +112,7 @@ class Load_Elementor
     }
 
     /**
-     * SFilter Elementor styles
+     * SFilter Elementor styles (centralized styles only)
      *
      * @since 1.0.0
      * @return array
@@ -114,16 +120,15 @@ class Load_Elementor
     public function getStyles()
     {
         return [
-
             'sfilter' => [
                 'src'     => SFILTER_ASSETS . '/css/sfilter.css',
                 'version' => filemtime(SFILTER_PATH . '/assets/css/sfilter.css'),
-            ]
+            ],
         ];
     }
 
     /**
-     * Widget list
+     * Legacy widget list (widgets in includes/Elementor/)
      *
      * @since 1.0.0
      * @return array
@@ -147,30 +152,30 @@ class Load_Elementor
         $styles      = $this->getStyles();
         $widget_list = $this->getWidgetList();
 
-        if (!count($widget_list)) {
-            return;
-        }
-
+        // Load legacy widgets from includes/Elementor/
         foreach ($widget_list as $handle => $widget) {
             $file = SFILTER_ELEMENTOR . $widget . '.php';
-            if (file_exists($file)) {
+            if (!file_exists($file)) {
                 continue;
             }
             require_once $file;
         }
 
+        // Register centralized scripts
         foreach ($scripts as $handle => $script) {
             $deps    = isset($script['deps']) ? $script['deps'] : false;
             $version = isset($script['version']) ? $script['version'] : SFILTER_VERSION;
             wp_register_script($handle, $script['src'], $deps, $version, true);
-            // wp_enqueue_script($handle);
         }
 
+        // Register centralized styles
         foreach ($styles as $handle => $style) {
             $deps = isset($style['deps']) ? $style['deps'] : false;
             $version = isset($style['version']) ? $style['version'] : SFILTER_VERSION;
             wp_register_style($handle, $style['src'], $deps, $version);
-            // wp_enqueue_style($handle);
         }
+
+        // Register modular widget assets
+        PartSearchAssets::register();
     }
 }
