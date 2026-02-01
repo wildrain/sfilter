@@ -15,6 +15,10 @@ $search_param = !empty($settings['search_param']) ? esc_attr($settings['search_p
 $max_parts = !empty($settings['max_parts']) ? intval($settings['max_parts']) : 15;
 $max_parts_error = !empty($settings['max_parts_error']) ? str_replace('{max}', $max_parts, $settings['max_parts_error']) : '';
 
+// URL params for prefill
+$url_search = isset($_GET['msf_search']) ? sanitize_text_field($_GET['msf_search']) : '';
+$url_search_type = isset($_GET['msf_search_type']) ? sanitize_text_field($_GET['msf_search_type']) : '';
+
 // Tab visibility
 $tab1_enabled = $settings['tab1_enabled'] === 'yes';
 $tab2_enabled = $settings['tab2_enabled'] === 'yes';
@@ -26,6 +30,16 @@ $first_active = 1;
 if (!$tab1_enabled && $tab2_enabled) $first_active = 2;
 elseif (!$tab1_enabled && !$tab2_enabled && $tab3_enabled) $first_active = 3;
 elseif (!$tab1_enabled && !$tab2_enabled && !$tab3_enabled && $tab4_enabled) $first_active = 4;
+
+// Override active tab from URL param
+$search_type_tab_map = ['part' => 1, 'multipart' => 2, 'attribute' => 3, 'equipment' => 4];
+if ($url_search_type && isset($search_type_tab_map[$url_search_type])) {
+    $tab_num = $search_type_tab_map[$url_search_type];
+    $tab_var = 'tab' . $tab_num . '_enabled';
+    if ($$tab_var) {
+        $first_active = $tab_num;
+    }
+}
 
 // Parse attribute fields
 $attribute_fields = !empty($settings['attribute_fields']) ? $settings['attribute_fields'] : [];
@@ -81,6 +95,7 @@ $year_options = !empty($settings['equipment_year_options']) ? explode("\n", $set
                                class="sf-search-input"
                                name="search_term"
                                placeholder="<?php echo esc_attr($settings['tab1_placeholder']); ?>"
+                               value="<?php echo $url_search_type === 'part' ? esc_attr($url_search) : ''; ?>"
                                autocomplete="off">
                         <button type="submit" class="sf-search-button">
                             <?php if ($settings['show_search_icon'] === 'yes') : ?>
@@ -106,7 +121,11 @@ $year_options = !empty($settings['equipment_year_options']) ? explode("\n", $set
                         <textarea class="sf-search-textarea sf-multipart-input"
                                   name="search_terms"
                                   rows="4"
-                                  placeholder="<?php echo esc_attr($settings['tab2_placeholder']); ?>"></textarea>
+                                  placeholder="<?php echo esc_attr($settings['tab2_placeholder']); ?>"><?php
+                            if ($url_search_type === 'multipart' && $url_search) {
+                                echo esc_textarea(str_replace(',', "\n", $url_search));
+                            }
+                        ?></textarea>
                     </div>
                     <div class="sf-form-actions">
                         <a href="#" class="sf-reset-link disabled">

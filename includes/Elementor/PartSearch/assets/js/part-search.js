@@ -25,6 +25,53 @@
             this.bindFormEvents();
             this.bindResetEvents();
             this.bindInputEvents();
+            this.restoreFromUrl();
+
+            // Handle browser back/forward
+            $(window).on('popstate', () => this.restoreFromUrl());
+        }
+
+        /**
+         * Restore search state from URL parameters
+         */
+        restoreFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            const search = params.get('msf_search');
+            const searchType = params.get('msf_search_type');
+
+            if (!search || !searchType) {
+                return;
+            }
+
+            const tabMap = {
+                part: 'part-search',
+                multipart: 'multipart-search',
+                attribute: 'attribute-search',
+                equipment: 'equipment-search'
+            };
+
+            const tabId = tabMap[searchType];
+            if (!tabId) {
+                return;
+            }
+
+            // Activate the correct tab
+            const $tabButton = this.$wrapper.find('.sf-tab-button[data-tab="' + tabId + '"]');
+            if ($tabButton.length) {
+                this.$wrapper.find('.sf-tab-button').removeClass('active');
+                $tabButton.addClass('active');
+                this.$wrapper.find('.sf-tab-content').removeClass('active');
+                this.$wrapper.find('[data-tab-content="' + tabId + '"]').addClass('active');
+            }
+
+            // Prefill the appropriate input
+            const $tabContent = this.$wrapper.find('[data-tab-content="' + tabId + '"]');
+            if (searchType === 'part') {
+                $tabContent.find('.sf-search-input').val(search);
+            } else if (searchType === 'multipart') {
+                $tabContent.find('.sf-search-textarea').val(search.replace(/,/g, '\n'));
+                this.updateResetLinkState($tabContent.find('.sf-search-form'));
+            }
         }
 
         /**
@@ -152,18 +199,58 @@
         }
 
         /**
+         * Trigger same-page search via custom event on .msf-wrapper
+         * Returns true if consumed (same page), false if not found
+         */
+        triggerSamePageSearch(search, searchType) {
+            var msfWrapper = document.querySelector('.msf-wrapper');
+            if (!msfWrapper) return false;
+
+            msfWrapper.dispatchEvent(new CustomEvent('sfPartSearch', {
+                detail: { search: search, search_type: searchType }
+            }));
+
+            // Update URL without reload
+            var params = new URLSearchParams(window.location.search);
+            params.set('msf_search', search);
+            params.set('msf_search_type', searchType);
+            history.pushState(null, '', window.location.pathname + '?' + params.toString());
+
+            return true;
+        }
+
+        /**
          * Handle single part search
          */
         handlePartSearch($form) {
             const searchTerm = $form.find('.sf-search-input').val().trim();
 
             if (!searchTerm) {
+                // Clear URL search params and reset ProductSearchFilter
+                var msfWrapper = document.querySelector('.msf-wrapper');
+                if (msfWrapper) {
+                    msfWrapper.dispatchEvent(new CustomEvent('sfPartSearch', {
+                        detail: { search: '', search_type: '' }
+                    }));
+                }
+                var params = new URLSearchParams(window.location.search);
+                params.delete('msf_search');
+                params.delete('msf_search_type');
+                var newUrl = params.toString()
+                    ? window.location.pathname + '?' + params.toString()
+                    : window.location.pathname;
+                history.pushState(null, '', newUrl);
+                return;
+            }
+
+            // Try same-page integration first
+            if (this.triggerSamePageSearch(searchTerm, 'part')) {
                 return;
             }
 
             const url = this.buildUrl({
-                [this.searchParam]: searchTerm,
-                search_type: 'part'
+                msf_search: searchTerm,
+                msf_search_type: 'part'
             });
 
             window.location.href = url;
@@ -178,6 +265,20 @@
             const rawValue = $textarea.val().trim();
 
             if (!rawValue) {
+                // Clear URL search params and reset ProductSearchFilter
+                var msfWrapper = document.querySelector('.msf-wrapper');
+                if (msfWrapper) {
+                    msfWrapper.dispatchEvent(new CustomEvent('sfPartSearch', {
+                        detail: { search: '', search_type: '' }
+                    }));
+                }
+                var params = new URLSearchParams(window.location.search);
+                params.delete('msf_search');
+                params.delete('msf_search_type');
+                var newUrl = params.toString()
+                    ? window.location.pathname + '?' + params.toString()
+                    : window.location.pathname;
+                history.pushState(null, '', newUrl);
                 return;
             }
 
@@ -195,10 +296,16 @@
 
             $errorMsg.attr('hidden', true);
 
+            const joinedParts = parts.join(',');
+
+            // Try same-page integration first
+            if (this.triggerSamePageSearch(joinedParts, 'multipart')) {
+                return;
+            }
+
             const url = this.buildUrl({
-                [this.searchParam]: parts.join(','),
-                search_type: 'multipart',
-                parts_count: parts.length
+                msf_search: joinedParts,
+                msf_search_type: 'multipart'
             });
 
             window.location.href = url;

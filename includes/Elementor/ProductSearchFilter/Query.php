@@ -18,6 +18,7 @@ class ProductSearchFilter_Query
     {
         $defaults = [
             'search'        => '',
+            'search_type'   => '',
             'taxonomies'    => [],
             'price_min'     => '',
             'price_max'     => '',
@@ -36,9 +37,41 @@ class ProductSearchFilter_Query
             'paged'          => intval($params['paged']),
         ];
 
-        // Text search
+        // Text search / cross-reference search
         if (!empty($params['search'])) {
-            $args['s'] = sanitize_text_field($params['search']);
+            $search_type = sanitize_text_field($params['search_type']);
+            $search_term = sanitize_text_field($params['search']);
+
+            if ($search_type === 'part') {
+                if (!isset($args['meta_query'])) {
+                    $args['meta_query'] = [];
+                }
+                $args['meta_query'][] = [
+                    'key'     => '_sfilter_cross_references',
+                    'value'   => $search_term,
+                    'compare' => 'LIKE',
+                ];
+            } elseif ($search_type === 'multipart') {
+                $terms = array_map('trim', explode(',', $search_term));
+                $terms = array_filter($terms);
+
+                if (!empty($terms)) {
+                    if (!isset($args['meta_query'])) {
+                        $args['meta_query'] = [];
+                    }
+                    $cross_ref_query = ['relation' => 'OR'];
+                    foreach ($terms as $term) {
+                        $cross_ref_query[] = [
+                            'key'     => '_sfilter_cross_references',
+                            'value'   => sanitize_text_field($term),
+                            'compare' => 'LIKE',
+                        ];
+                    }
+                    $args['meta_query'][] = $cross_ref_query;
+                }
+            } else {
+                $args['s'] = $search_term;
+            }
         }
 
         // Taxonomy filters

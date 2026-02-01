@@ -696,10 +696,27 @@ class ProductSearchFilter extends Widget_Base
         $widget_id = $this->get_id();
 
         $query_params = [
+            'search'         => isset($_GET['msf_search']) ? sanitize_text_field($_GET['msf_search']) : '',
+            'search_type'    => isset($_GET['msf_search_type']) ? sanitize_text_field($_GET['msf_search_type']) : '',
+            'price_min'      => isset($_GET['msf_price_min']) ? sanitize_text_field($_GET['msf_price_min']) : '',
+            'price_max'      => isset($_GET['msf_price_max']) ? sanitize_text_field($_GET['msf_price_max']) : '',
+            'orderby'        => isset($_GET['msf_sort']) ? sanitize_text_field($_GET['msf_sort']) : (!empty($settings['default_sort']) ? $settings['default_sort'] : 'date'),
             'posts_per_page' => !empty($settings['posts_per_page']) ? intval($settings['posts_per_page']) : 12,
-            'orderby'        => !empty($settings['default_sort']) ? $settings['default_sort'] : 'date',
-            'paged'          => 1,
+            'paged'          => isset($_GET['msf_page']) ? intval($_GET['msf_page']) : 1,
         ];
+
+        // Restore taxonomy filters from URL
+        $url_taxonomies = [];
+        foreach ($_GET as $key => $value) {
+            if (strpos($key, 'msf_tax_') === 0 && !empty($value)) {
+                $tax_name = sanitize_text_field(substr($key, 8));
+                $terms = array_map('sanitize_text_field', explode(',', $value));
+                $url_taxonomies[$tax_name] = $terms;
+            }
+        }
+        if (!empty($url_taxonomies)) {
+            $query_params['taxonomies'] = $url_taxonomies;
+        }
 
         $query = ProductSearchFilter_Query::query($query_params);
 

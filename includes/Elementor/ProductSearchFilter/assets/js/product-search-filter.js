@@ -11,11 +11,13 @@
         this.nonce    = $wrapper.data('nonce');
         this.settings = $wrapper.data('settings') || {};
 
-        this.currentPage  = 1;
-        this.currentView  = this.settings.default_view || 'grid';
-        this.currentSort  = this.settings.default_sort || 'date';
-        this.xhr          = null;
-        this.searchTimer  = null;
+        this.currentPage       = 1;
+        this.currentView       = this.settings.default_view || 'grid';
+        this.currentSort       = this.settings.default_sort || 'date';
+        this.currentSearchType = '';
+        this.currentSearch     = '';
+        this.xhr               = null;
+        this.searchTimer       = null;
 
         this.init();
     }
@@ -40,6 +42,8 @@
 
             // Search input (debounced)
             this.$wrapper.on('input', '.msf-search-input', function() {
+                self.currentSearchType = '';
+                self.currentSearch = $(this).val() || '';
                 clearTimeout(self.searchTimer);
                 self.searchTimer = setTimeout(function() {
                     self.currentPage = 1;
@@ -126,6 +130,10 @@
 
                 self.$wrapper.find('.msf-term-item--expanded').removeClass('msf-term-item--expanded');
                 self.$wrapper.find('.msf-term-toggle').text('+');
+                self.currentSearchType = '';
+                self.currentSearch = '';
+                $('.sf-search-wrapper .sf-search-input').val('');
+                $('.sf-search-wrapper .sf-search-textarea').val('');
                 self.currentSort = self.settings.default_sort || 'date';
                 self.$wrapper.find('.msf-sort-select').val(self.currentSort);
                 self.currentPage = 1;
@@ -172,6 +180,16 @@
                     self.fetchProducts(false);
                 });
             }
+
+            // Listen for PartSearch custom event
+            this.$wrapper[0].addEventListener('sfPartSearch', function(e) {
+                var detail = e.detail || {};
+                self.currentSearchType = detail.search_type || '';
+                self.currentSearch = detail.search || '';
+                self.$wrapper.find('.msf-search-input').val(self.currentSearch);
+                self.currentPage = 1;
+                self.fetchProducts(false);
+            });
         },
 
         getFilters: function() {
@@ -289,7 +307,8 @@
             var data = {
                 action:         'sf_product_search',
                 nonce:          this.nonce,
-                search:         filters.search || '',
+                search:         filters.search || this.currentSearch || '',
+                search_type:    this.currentSearchType || '',
                 taxonomies:     filters.taxonomies || {},
                 price_min:      filters.price_min || '',
                 price_max:      filters.price_max || '',
@@ -392,7 +411,9 @@
         pushUrl: function(filters) {
             var params = new URLSearchParams();
 
-            if (filters.search) params.set('msf_search', filters.search);
+            var searchVal = filters.search || this.currentSearch || '';
+            if (searchVal) params.set('msf_search', searchVal);
+            if (this.currentSearchType) params.set('msf_search_type', this.currentSearchType);
             if (filters.taxonomies) {
                 for (var tax in filters.taxonomies) {
                     var val = filters.taxonomies[tax];
@@ -425,7 +446,11 @@
 
             // Search
             var search = params.get('msf_search') || '';
+            this.currentSearch = search;
             this.$wrapper.find('.msf-search-input').val(search);
+
+            // Search type
+            this.currentSearchType = params.get('msf_search_type') || '';
 
             // Taxonomies
             var self = this;

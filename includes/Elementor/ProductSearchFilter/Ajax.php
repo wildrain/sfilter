@@ -20,6 +20,7 @@ class ProductSearchFilter_Ajax
 
         $params = [
             'search'         => isset($_POST['search']) ? sanitize_text_field($_POST['search']) : '',
+            'search_type'    => isset($_POST['search_type']) ? sanitize_text_field($_POST['search_type']) : '',
             'taxonomies'     => isset($_POST['taxonomies']) ? $this->sanitize_taxonomies($_POST['taxonomies']) : [],
             'price_min'      => isset($_POST['price_min']) ? sanitize_text_field($_POST['price_min']) : '',
             'price_max'      => isset($_POST['price_max']) ? sanitize_text_field($_POST['price_max']) : '',
