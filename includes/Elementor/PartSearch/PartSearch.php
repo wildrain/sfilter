@@ -3,10 +3,10 @@
 /**
  * Elementor Part Search Widget.
  *
- * @package SFilter\Elementor\Widgets\PartSearch
+ * @package SFilter\Elementor\PartSearch
  */
 
-namespace SFilter\Elementor\Widgets\PartSearch;
+namespace SFilter\Elementor\PartSearch;
 
 use Elementor\Controls_Manager;
 use Elementor\Widget_Base;

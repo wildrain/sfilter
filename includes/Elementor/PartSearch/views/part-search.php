@@ -2,7 +2,7 @@
 /**
  * Part Search Widget Template
  *
- * @package SFilter\Elementor\Widgets\PartSearch
+ * @package SFilter\Elementor\PartSearch
  */
 
 if (!defined('ABSPATH')) {

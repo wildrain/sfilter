@@ -3,10 +3,10 @@
 /**
  * Part Search Widget Assets Handler.
  *
- * @package SFilter\Elementor\Widgets\PartSearch
+ * @package SFilter\Elementor\PartSearch
  */
 
-namespace SFilter\Elementor\Widgets\PartSearch;
+namespace SFilter\Elementor\PartSearch;
 
 if (!defined('ABSPATH')) {
     exit;

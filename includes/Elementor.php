@@ -3,8 +3,10 @@
 namespace SFilter;
 
 use Elementor\Plugin;
-use SFilter\Elementor\Widgets\PartSearch\Assets as PartSearchAssets;
-use SFilter\Elementor\Widgets\PartSearch\PartSearch;
+use SFilter\Elementor\PartSearch\Assets as PartSearchAssets;
+use SFilter\Elementor\PartSearch\PartSearch;
+use SFilter\Elementor\ProductSearchFilter\ProductSearchFilter;
+use SFilter\Elementor\ProductSearchFilter\ProductSearchFilter_Ajax;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -26,6 +28,8 @@ class Load_Elementor
         add_action('elementor/elements/categories_registered', [$this, 'register_category']);
         add_action('elementor/widgets/widgets_registered', [$this, 'register_widgets']);
         add_action('elementor/editor/after_enqueue_scripts', [$this, 'custom_elementor_scripts']);
+
+        new ProductSearchFilter_Ajax();
     }
 
 
@@ -77,11 +81,8 @@ class Load_Elementor
     {
         $this->includeWidgetsFiles();
 
-        // Register legacy widgets from includes/Elementor/
-        Plugin::instance()->widgets_manager->register(new Elementor\Hello_World());
-
-        // Register modular widgets
         Plugin::instance()->widgets_manager->register(new PartSearch());
+        Plugin::instance()->widgets_manager->register(new ProductSearchFilter());
     }
 
     /**
@@ -128,19 +129,6 @@ class Load_Elementor
     }
 
     /**
-     * Legacy widget list (widgets in includes/Elementor/)
-     *
-     * @since 1.0.0
-     * @return array
-     */
-    public static function getWidgetList()
-    {
-        return [
-            'Hello_World',
-        ];
-    }
-
-    /**
      * Widget files
      *
      * @since 1.0.0
@@ -150,16 +138,6 @@ class Load_Elementor
     {
         $scripts     = $this->get_scripts();
         $styles      = $this->getStyles();
-        $widget_list = $this->getWidgetList();
-
-        // Load legacy widgets from includes/Elementor/
-        foreach ($widget_list as $handle => $widget) {
-            $file = SFILTER_ELEMENTOR . $widget . '.php';
-            if (!file_exists($file)) {
-                continue;
-            }
-            require_once $file;
-        }
 
         // Register centralized scripts
         foreach ($scripts as $handle => $script) {

@@ -1,7 +1,7 @@
 /**
  * Part Search Widget JavaScript
  *
- * @package SFilter\Elementor\Widgets\PartSearch
+ * @package SFilter\Elementor\PartSearch
  */
 
 (function($) {
