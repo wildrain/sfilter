@@ -23,16 +23,16 @@ class Assets
 
         wp_enqueue_style(
             'sf-pb-admin',
-            SFILTER_ASSETS . '/ProductBuilder/css/admin.css',
+            SFILTER_URL . '/includes/ProductBuilder/assets/css/admin.css',
             [],
-            filemtime(SFILTER_PATH . '/assets/ProductBuilder/css/admin.css')
+            filemtime(SFILTER_PATH . '/includes/ProductBuilder/assets/css/admin.css')
         );
 
         wp_enqueue_script(
             'sf-pb-admin',
-            SFILTER_ASSETS . '/ProductBuilder/js/admin.js',
+            SFILTER_URL . '/includes/ProductBuilder/assets/js/admin.js',
             ['jquery'],
-            filemtime(SFILTER_PATH . '/assets/ProductBuilder/js/admin.js'),
+            filemtime(SFILTER_PATH . '/includes/ProductBuilder/assets/js/admin.js'),
             true
         );
     }
