@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
             <thead>
                 <tr>
                     <th><?php esc_html_e('Manufacturer', 'sfilter'); ?></th>
-                    <th><?php esc_html_e('Codes', 'sfilter'); ?></th>
+                    <th><?php esc_html_e('Part Number', 'sfilter'); ?></th>
                 </tr>
             </thead>
             <tbody>

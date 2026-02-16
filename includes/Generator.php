@@ -85,6 +85,16 @@ class Generator
             'plural'   => 'Styles',
             'slug'     => 'filter-style'
         ],
+        'sf_bypass_valve' => [
+            'singular' => 'Bypass Valve',
+            'plural'   => 'Bypass Valves',
+            'slug'     => 'bypass-valve'
+        ],
+        'sf_bypass_valve_setting' => [
+            'singular' => 'Bypass Valve Setting',
+            'plural'   => 'Bypass Valve Settings',
+            'slug'     => 'bypass-valve-setting'
+        ],
     ];
 
     public function __construct()
