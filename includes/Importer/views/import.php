@@ -37,7 +37,7 @@ FILTER-002,Donaldson,"P550123"</code>
                 <strong>codes:</strong> <?php esc_html_e('Part codes (comma-separated within quotes)', 'sfilter'); ?>
             </p>
             <p style="margin-top: 10px; margin-bottom: 0;">
-                <a href="<?php echo esc_url(SFILTER_URL . '/samples/cross_references.csv'); ?>" class="button button-secondary" download>
+                <a href="<?php echo esc_url(SFILTER_URL . '/includes/Importer/samples/cross_references.csv'); ?>" class="button button-secondary" download>
                     <?php esc_html_e('Download Sample CSV', 'sfilter'); ?>
                 </a>
             </p>
@@ -80,7 +80,7 @@ FILTER-002,Ford,F-150,2017,2022</code>
                 <strong>year_to:</strong> <?php esc_html_e('Ending year', 'sfilter'); ?>
             </p>
             <p style="margin-top: 10px; margin-bottom: 0;">
-                <a href="<?php echo esc_url(SFILTER_URL . '/samples/applications.csv'); ?>" class="button button-secondary" download>
+                <a href="<?php echo esc_url(SFILTER_URL . '/includes/Importer/samples/applications.csv'); ?>" class="button button-secondary" download>
                     <?php esc_html_e('Download Sample CSV', 'sfilter'); ?>
                 </a>
             </p>

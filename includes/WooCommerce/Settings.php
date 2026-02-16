@@ -2,7 +2,7 @@
 
 namespace SFilter\WooCommerce;
 
-use SFilter\Admin\TestImport;
+use SFilter\Importer\Handler;
 
 class Settings extends \WC_Settings_Page
 {
@@ -79,12 +79,12 @@ class Settings extends \WC_Settings_Page
 
     private function output_import_section()
     {
-        $this->importer = new TestImport();
+        $this->importer = new Handler();
         $this->importer->process_submissions_external();
 
         $messages = $this->importer->get_messages();
         $errors = $this->importer->get_errors();
 
-        include __DIR__ . '/views/import.php';
+        include dirname(__DIR__) . '/Importer/views/import.php';
     }
 }

@@ -1,11 +1,11 @@
 <?php
 
-namespace SFilter\Admin;
+namespace SFilter\Importer;
 
 use SFilter\ProductBuilder\Metabox;
 use SFilter\ProductBuilder\ApplicationMetabox;
 
-class TestImport
+class Handler
 {
     private $messages = [];
     private $errors = [];
