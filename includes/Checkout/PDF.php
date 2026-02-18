@@ -92,10 +92,11 @@ class PDF
         file_put_contents($filepath, $output);
 
         if (file_exists($filepath)) {
-            // Save meta data to order
+            // Save meta data to order (HPOS compatible)
             $file_url = $this->get_upload_url() . '/' . $filename;
-            update_post_meta($this->order_id, '_sf_quotation_pdf_path', $filepath);
-            update_post_meta($this->order_id, '_sf_quotation_pdf_url', $file_url);
+            $order->update_meta_data('_sf_quotation_pdf_path', $filepath);
+            $order->update_meta_data('_sf_quotation_pdf_url', $file_url);
+            $order->save();
 
             return $filepath;
         }
@@ -139,29 +140,39 @@ class PDF
     }
 
     /**
-     * Get the generated PDF URL
+     * Get the generated PDF URL (HPOS compatible)
      *
      * @return string|null
      */
     public function get_pdf_url()
     {
-        return get_post_meta($this->order_id, '_sf_quotation_pdf_url', true) ?: null;
+        $order = wc_get_order($this->order_id);
+        if (!$order) {
+            return null;
+        }
+        return $order->get_meta('_sf_quotation_pdf_url') ?: null;
     }
 
     /**
-     * Delete the PDF file
+     * Delete the PDF file (HPOS compatible)
      *
      * @param int $order_id
      * @return bool
      */
     public static function delete($order_id)
     {
-        $filepath = get_post_meta($order_id, '_sf_quotation_pdf_path', true);
+        $order = wc_get_order($order_id);
+        if (!$order) {
+            return false;
+        }
+
+        $filepath = $order->get_meta('_sf_quotation_pdf_path');
 
         if ($filepath && file_exists($filepath)) {
             unlink($filepath);
-            delete_post_meta($order_id, '_sf_quotation_pdf_path');
-            delete_post_meta($order_id, '_sf_quotation_pdf_url');
+            $order->delete_meta_data('_sf_quotation_pdf_path');
+            $order->delete_meta_data('_sf_quotation_pdf_url');
+            $order->save();
             return true;
         }
 

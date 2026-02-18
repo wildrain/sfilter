@@ -25,9 +25,6 @@ class Hooks
         // Save order meta
         add_action('woocommerce_checkout_update_order_meta', [$this, 'save_order_meta']);
 
-        // Display PDF link in admin
-        add_action('woocommerce_admin_order_data_after_billing_address', [$this, 'display_admin_pdf_link']);
-
         // Remove order review (payment methods, etc.)
         add_action('wp', [$this, 'remove_order_review_hooks']);
 
@@ -174,38 +171,4 @@ class Hooks
         }
     }
 
-    /**
-     * Display PDF download link in admin order page
-     *
-     * @param \WC_Order $order
-     */
-    public function display_admin_pdf_link($order)
-    {
-        $pdf_url = get_post_meta($order->get_id(), '_sf_quotation_pdf_url', true);
-
-        if (!empty($pdf_url)) {
-            echo '<p><strong>' . __('Quotation PDF:', 'sfilter') . '</strong><br>';
-            echo '<a href="' . esc_url($pdf_url) . '" target="_blank" class="button">';
-            echo __('View Quotation PDF', 'sfilter');
-            echo '</a></p>';
-        }
-
-        // Display custom fields
-        $fields = Fields::get_fields();
-        echo '<div class="sf-custom-fields" style="margin-top: 15px;">';
-        echo '<h4>' . __('Customer Information', 'sfilter') . '</h4>';
-
-        foreach ($fields as $key => $field) {
-            $value = get_post_meta($order->get_id(), '_' . $key, true);
-            if (!empty($value)) {
-                if ($key === 'sf_region') {
-                    $regions = Fields::get_regions();
-                    $value = isset($regions[$value]) ? $regions[$value] : $value;
-                }
-                echo '<p><strong>' . esc_html($field['label']) . ':</strong> ' . esc_html($value) . '</p>';
-            }
-        }
-
-        echo '</div>';
-    }
 }
