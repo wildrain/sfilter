@@ -22,15 +22,29 @@ class ComposerStaticInitb59b953b3d40623fd8ecf31750cfaa4c
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Contracts\\Translation\\' => 30,
             'Symfony\\Component\\Translation\\' => 30,
+            'Svg\\' => 4,
+            'Sabberworm\\CSS\\' => 15,
             'SFilter\\' => 8,
         ),
         'P' => 
         array (
             'Psr\\Clock\\' => 10,
         ),
+        'M' => 
+        array (
+            'Masterminds\\' => 12,
+        ),
+        'F' => 
+        array (
+            'FontLib\\' => 8,
+        ),
         'E' => 
         array (
             'ExtCPTs\\' => 8,
+        ),
+        'D' => 
+        array (
+            'Dompdf\\' => 7,
         ),
         'C' => 
         array (
@@ -60,6 +74,14 @@ class ComposerStaticInitb59b953b3d40623fd8ecf31750cfaa4c
         array (
             0 => __DIR__ . '/..' . '/symfony/translation',
         ),
+        'Svg\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phenx/php-svg-lib/src/Svg',
+        ),
+        'Sabberworm\\CSS\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/sabberworm/php-css-parser/src',
+        ),
         'SFilter\\' => 
         array (
             0 => __DIR__ . '/../..' . '/includes',
@@ -68,9 +90,21 @@ class ComposerStaticInitb59b953b3d40623fd8ecf31750cfaa4c
         array (
             0 => __DIR__ . '/..' . '/psr/clock/src',
         ),
+        'Masterminds\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/masterminds/html5/src',
+        ),
+        'FontLib\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phenx/php-font-lib/src/FontLib',
+        ),
         'ExtCPTs\\' => 
         array (
             0 => __DIR__ . '/..' . '/johnbillion/extended-cpts/src',
+        ),
+        'Dompdf\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/dompdf/dompdf/src',
         ),
         'Carbon\\Doctrine\\' => 
         array (
@@ -89,6 +123,7 @@ class ComposerStaticInitb59b953b3d40623fd8ecf31750cfaa4c
     public static $classMap = array (
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'Dompdf\\Cpdf' => __DIR__ . '/..' . '/dompdf/dompdf/lib/Cpdf.php',
         'PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
         'SFilter\\API' => __DIR__ . '/../..' . '/includes/API.php',
         'SFilter\\Admin' => __DIR__ . '/../..' . '/includes/Admin.php',
@@ -97,6 +132,12 @@ class ComposerStaticInitb59b953b3d40623fd8ecf31750cfaa4c
         'SFilter\\Admin\\Settings' => __DIR__ . '/../..' . '/includes/Admin/Settings.php',
         'SFilter\\Ajax' => __DIR__ . '/../..' . '/includes/Ajax.php',
         'SFilter\\Assets' => __DIR__ . '/../..' . '/includes/Assets.php',
+        'SFilter\\Checkout\\Ajax' => __DIR__ . '/../..' . '/includes/Checkout/Ajax.php',
+        'SFilter\\Checkout\\Assets' => __DIR__ . '/../..' . '/includes/Checkout/Assets.php',
+        'SFilter\\Checkout\\Checkout' => __DIR__ . '/../..' . '/includes/Checkout/Checkout.php',
+        'SFilter\\Checkout\\Fields' => __DIR__ . '/../..' . '/includes/Checkout/Fields.php',
+        'SFilter\\Checkout\\Hooks' => __DIR__ . '/../..' . '/includes/Checkout/Hooks.php',
+        'SFilter\\Checkout\\PDF' => __DIR__ . '/../..' . '/includes/Checkout/PDF.php',
         'SFilter\\Customizer' => __DIR__ . '/../..' . '/includes/Customizer.php',
         'SFilter\\Customizer\\General_Settings' => __DIR__ . '/../..' . '/includes/Customizer/General_Settings.php',
         'SFilter\\Customizer\\Header_Settings' => __DIR__ . '/../..' . '/includes/Customizer/Header_Settings.php',

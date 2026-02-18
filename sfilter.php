@@ -99,6 +99,7 @@ final class SFilter
         new SFilter\Customizer();
         new SFilter\ProductBuilder();
         new SFilter\Product();
+        new SFilter\Checkout\Checkout();
         if (is_admin()) {
             new SFilter\Admin();
         } else {
