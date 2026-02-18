@@ -9,6 +9,7 @@ class Product
         if (!is_admin()) {
             new Product\Tabs();
             new Product\Assets();
+            new Product\Button();
         }
     }
 }

@@ -13,7 +13,7 @@ $fields = \SFilter\Checkout\Fields::get_fields();
 ?>
 
 <div class="sf-checkout-form-wrapper">
-    <h3><?php esc_html_e('Customer Information', 'sfilter'); ?></h3>
+    <h3><?php esc_html_e('Quotation Information', 'sfilter'); ?></h3>
 
     <div class="sf-checkout-form" id="sf-checkout-form">
         <div class="sf-checkout-fields">

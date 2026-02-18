@@ -92,6 +92,9 @@ class Hooks
 
         remove_action('woocommerce_checkout_order_review', 'woocommerce_order_review', 10);
         remove_action('woocommerce_checkout_order_review', 'woocommerce_checkout_payment', 20);
+
+        // Remove theme's order summary hook (Turbo theme)
+        remove_all_actions('woocommerce_checkout_after_order_review');
     }
 
     /**
@@ -118,6 +121,12 @@ class Hooks
             /* Theme coupon form */
             body.woocommerce-checkout .checkout-coupon-wrapper,
             body.woocommerce-checkout .coupon-error,
+
+            /* Theme order summary - target the container div with the h4 and summary */
+            body.woocommerce-checkout .turbo-checkout-order-summary,
+            body.woocommerce-checkout div:has(> .turbo-checkout-order-summary),
+            body.woocommerce-checkout div.mt-8:has(.turbo-checkout-order-summary),
+            body.woocommerce-checkout div[class*="mt-8"]:has(.turbo-checkout-order-summary),
 
             /* Order review/summary */
             .woocommerce-checkout #order_review,
@@ -151,7 +160,41 @@ class Hooks
             .woocommerce-checkout .sf-checkout-form-wrapper {
                 grid-column: 1 / -1;
             }
+
+            /* Hide coupon and order summary sections */
+            .sf-hidden-section {
+                display: none !important;
+            }
         </style>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Hide coupon section - find by input placeholder and hide its row
+                var couponInputs = document.querySelectorAll('input[placeholder*="coupon" i], input[placeholder*="كوبون" i]');
+                couponInputs.forEach(function(input) {
+                    // Find the flex row containing both input and button
+                    var row = input.closest('div');
+                    while (row && row.parentElement) {
+                        var hasButton = row.querySelector('button');
+                        var hasInput = row.querySelector('input');
+                        if (hasButton && hasInput) {
+                            row.classList.add('sf-hidden-section');
+                            break;
+                        }
+                        row = row.parentElement;
+                    }
+                });
+
+                // Hide ORDER SUMMARY section - target turbo-checkout-order-summary and its parent
+                var orderSummary = document.querySelector('.turbo-checkout-order-summary');
+                if (orderSummary) {
+                    // Hide the parent div that contains both h4 and the summary
+                    var parent = orderSummary.parentElement;
+                    if (parent) {
+                        parent.classList.add('sf-hidden-section');
+                    }
+                }
+            });
+        </script>
         <?php
     }
 
