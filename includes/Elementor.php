@@ -3,6 +3,10 @@
 namespace SFilter;
 
 use Elementor\Plugin;
+use SFilter\Elementor\PartSearch\Assets as PartSearchAssets;
+use SFilter\Elementor\PartSearch\PartSearch;
+use SFilter\Elementor\ProductSearchFilter\ProductSearchFilter;
+use SFilter\Elementor\ProductSearchFilter\ProductSearchFilter_Ajax;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -24,6 +28,8 @@ class Load_Elementor
         add_action('elementor/elements/categories_registered', [$this, 'register_category']);
         add_action('elementor/widgets/widgets_registered', [$this, 'register_widgets']);
         add_action('elementor/editor/after_enqueue_scripts', [$this, 'custom_elementor_scripts']);
+
+        new ProductSearchFilter_Ajax();
     }
 
 
@@ -75,7 +81,8 @@ class Load_Elementor
     {
         $this->includeWidgetsFiles();
 
-        Plugin::instance()->widgets_manager->register(new Elementor\Hello_World());
+        Plugin::instance()->widgets_manager->register(new PartSearch());
+        Plugin::instance()->widgets_manager->register(new ProductSearchFilter());
     }
 
     /**
@@ -90,7 +97,7 @@ class Load_Elementor
     }
 
     /**
-     * SFilter scripts
+     * SFilter scripts (centralized scripts only)
      *
      * @return array
      */
@@ -106,7 +113,7 @@ class Load_Elementor
     }
 
     /**
-     * SFilter Elementor styles
+     * SFilter Elementor styles (centralized styles only)
      *
      * @since 1.0.0
      * @return array
@@ -114,24 +121,10 @@ class Load_Elementor
     public function getStyles()
     {
         return [
-
             'sfilter' => [
                 'src'     => SFILTER_ASSETS . '/css/sfilter.css',
                 'version' => filemtime(SFILTER_PATH . '/assets/css/sfilter.css'),
-            ]
-        ];
-    }
-
-    /**
-     * Widget list
-     *
-     * @since 1.0.0
-     * @return array
-     */
-    public static function getWidgetList()
-    {
-        return [
-            'Hello_World',
+            ],
         ];
     }
 
@@ -145,32 +138,22 @@ class Load_Elementor
     {
         $scripts     = $this->get_scripts();
         $styles      = $this->getStyles();
-        $widget_list = $this->getWidgetList();
 
-        if (!count($widget_list)) {
-            return;
-        }
-
-        foreach ($widget_list as $handle => $widget) {
-            $file = SFILTER_ELEMENTOR . $widget . '.php';
-            if (file_exists($file)) {
-                continue;
-            }
-            require_once $file;
-        }
-
+        // Register centralized scripts
         foreach ($scripts as $handle => $script) {
             $deps    = isset($script['deps']) ? $script['deps'] : false;
             $version = isset($script['version']) ? $script['version'] : SFILTER_VERSION;
             wp_register_script($handle, $script['src'], $deps, $version, true);
-            // wp_enqueue_script($handle);
         }
 
+        // Register centralized styles
         foreach ($styles as $handle => $style) {
             $deps = isset($style['deps']) ? $style['deps'] : false;
             $version = isset($style['version']) ? $style['version'] : SFILTER_VERSION;
             wp_register_style($handle, $style['src'], $deps, $version);
-            // wp_enqueue_style($handle);
         }
+
+        // Register modular widget assets
+        PartSearchAssets::register();
     }
 }

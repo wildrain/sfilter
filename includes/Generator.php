@@ -2,98 +2,141 @@
 
 namespace SFilter;
 
-/**
- * Generator class
- * 
- * @description: Extended CPTs is a library which provides extended functionality to WordPress custom post types and taxonomies. 
- * This allows developers to quickly build post types and taxonomies without having to write the same code again and again.
- * 
- * @api https://github.com/johnbillion/extended-cpts
- */
 class Generator
 {
-    /**
-     * Class initialize
-     */
-    function __construct()
+    private $taxonomies = [
+        'sf_type' => [
+            'singular' => 'Type',
+            'plural'   => 'Types',
+            'slug'     => 'filter-type'
+        ],
+        'sf_outer_dimension' => [
+            'singular' => 'Outer Diameter',
+            'plural'   => 'Outer Diameters',
+            'slug'     => 'outer-diameter'
+        ],
+        'sf_inner_diameter' => [
+            'singular' => 'Inner Diameter',
+            'plural'   => 'Inner Diameters',
+            'slug'     => 'inner-diameter'
+        ],
+        'sf_thread_size' => [
+            'singular' => 'Thread Size',
+            'plural'   => 'Thread Sizes',
+            'slug'     => 'thread-size'
+        ],
+        'sf_length' => [
+            'singular' => 'Length',
+            'plural'   => 'Lengths',
+            'slug'     => 'filter-length'
+        ],
+        'sf_overall_length' => [
+            'singular' => 'Overall Length',
+            'plural'   => 'Overall Lengths',
+            'slug'     => 'overall-length'
+        ],
+        'sf_width' => [
+            'singular' => 'Width',
+            'plural'   => 'Widths',
+            'slug'     => 'filter-width'
+        ],
+        'sf_height' => [
+            'singular' => 'Height',
+            'plural'   => 'Heights',
+            'slug'     => 'filter-height'
+        ],
+        'sf_thickness' => [
+            'singular' => 'Thickness',
+            'plural'   => 'Thicknesses',
+            'slug'     => 'filter-thickness'
+        ],
+        'sf_bolt_hole_diameter' => [
+            'singular' => 'Bolt Hole Diameter',
+            'plural'   => 'Bolt Hole Diameters',
+            'slug'     => 'bolt-hole-diameter'
+        ],
+        'sf_gasket_od' => [
+            'singular' => 'Gasket OD',
+            'plural'   => 'Gasket ODs',
+            'slug'     => 'gasket-od'
+        ],
+        'sf_collapse_burst' => [
+            'singular' => 'Collapse Burst',
+            'plural'   => 'Collapse Bursts',
+            'slug'     => 'collapse-burst'
+        ],
+        'sf_media_material' => [
+            'singular' => 'Media Material',
+            'plural'   => 'Media Materials',
+            'slug'     => 'media-material'
+        ],
+        'sf_structure_material' => [
+            'singular' => 'Structure Material',
+            'plural'   => 'Structure Materials',
+            'slug'     => 'structure-material'
+        ],
+        'sf_filter_type' => [
+            'singular' => 'Type of Filter',
+            'plural'   => 'Types of Filter',
+            'slug'     => 'type-of-filter'
+        ],
+        'sf_style' => [
+            'singular' => 'Style',
+            'plural'   => 'Styles',
+            'slug'     => 'filter-style'
+        ],
+        'sf_bypass_valve' => [
+            'singular' => 'Bypass Valve',
+            'plural'   => 'Bypass Valves',
+            'slug'     => 'bypass-valve'
+        ],
+        'sf_bypass_valve_setting' => [
+            'singular' => 'Bypass Valve Setting',
+            'plural'   => 'Bypass Valve Settings',
+            'slug'     => 'bypass-valve-setting'
+        ],
+    ];
+
+    public function __construct()
     {
-        add_action('init', [$this, 'init_generator']);
+        add_action('init', [$this, 'register_taxonomies']);
+        add_action('init', [$this, 'register_term_meta']);
     }
 
-    public function init_generator()
+    public function register_taxonomies()
     {
-        register_extended_post_type( 'story', array(
-
-            # Add the post type to the site's main RSS feed:
-            'show_in_feed' => true,
-    
-            # Use the block editor:
-            'show_in_rest' => true,
-    
-            # Show all posts on the post type archive:
-            'archive' => array(
-                'nopaging' => true
-            ),
-    
-            # Add some custom columns to the admin screen:
-            'admin_cols' => array(
-                'featured_image' => array(
-                    'title'          => 'Illustration',
-                    'featured_image' => 'thumbnail'
-                ),
-                'published' => array(
-                    'title'       => 'Published',
-                    'meta_key'    => 'published_date',
-                    'date_format' => 'd/m/Y'
-                ),
-                'genre' => array(
-                    'taxonomy' => 'genre'
-                )
-            ),
-    
-            # Add a dropdown filter to the admin screen:
-            'admin_filters' => array(
-                'genre' => array(
-                    'taxonomy' => 'genre'
-                )
-            )
-    
-        ), array(
-    
-            # Override the base names used for labels:
-            'singular' => 'Story',
-            'plural'   => 'Stories',
-            'slug'     => 'stories'
-    
-        ) );
-
-
-        register_extended_taxonomy( 'genre', 'story', array(
-
-            # Use radio buttons in the meta box for this taxonomy on the post editing screen:
-            'meta_box' => 'radio',
-        
-            # Show this taxonomy in the 'At a Glance' dashboard widget:
-            'dashboard_glance' => true,
-        
-            # Add a custom column to the admin screen:
-            'admin_cols' => array(
-                'updated' => array(
-                    'title'       => 'Updated',
-                    'meta_key'    => 'updated_date',
-                    'date_format' => 'd/m/Y'
-                ),
-            ),
-        
-        ), array(
-        
-            # Override the base names used for labels:
-            'singular' => 'Genre',
-            'plural'   => 'Genres',
-            'slug'     => 'story-genre'
-        
-        ) );
+        foreach ($this->taxonomies as $taxonomy => $labels) {
+            register_extended_taxonomy(
+                $taxonomy,
+                'product',
+                [
+                    'dashboard_glance' => false,
+                    'show_in_rest'     => true,
+                    'hierarchical'     => false,
+                ],
+                [
+                    'singular' => $labels['singular'],
+                    'plural'   => $labels['plural'],
+                    'slug'     => $labels['slug'],
+                ]
+            );
+        }
     }
 
-    
+    public function register_term_meta()
+    {
+        foreach (array_keys($this->taxonomies) as $taxonomy) {
+            register_term_meta($taxonomy, 'translation', [
+                'type'              => 'string',
+                'single'            => true,
+                'show_in_rest'      => true,
+                'sanitize_callback' => 'sanitize_text_field',
+            ]);
+        }
+    }
+
+    public function get_taxonomies()
+    {
+        return $this->taxonomies;
+    }
 }

@@ -1,0 +1,16 @@
+<?php
+
+namespace SFilter;
+
+class ProductBuilder
+{
+    public function __construct()
+    {
+        if (is_admin()) {
+            new ProductBuilder\Metabox();
+            new ProductBuilder\ApplicationMetabox();
+            new ProductBuilder\Assets();
+            new ProductBuilder\InventoryFields();
+        }
+    }
+}

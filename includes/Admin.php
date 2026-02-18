@@ -11,6 +11,19 @@ class Admin
     {
         new Admin\Menu();
         new Admin\Handler();
-        new Admin\TestBgJob();
+
+        add_filter('woocommerce_get_settings_pages', [$this, 'add_woocommerce_settings']);
+    }
+
+    /**
+     * Add SFilter settings tab to WooCommerce settings
+     *
+     * @param array $settings
+     * @return array
+     */
+    public function add_woocommerce_settings($settings)
+    {
+        $settings[] = new WooCommerce\Settings();
+        return $settings;
     }
 }

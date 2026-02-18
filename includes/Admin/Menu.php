@@ -28,7 +28,6 @@ class Menu
         add_menu_page(__('SFilter Dashboard', 'sfilter'), __('SFilter', 'sfilter'), $capability, $parent_slug, [$this, 'dashboard_page'], 'dashicons-buddicons-groups');
         add_submenu_page($parent_slug, __('Settings', 'sfilter'), __('Settings', 'sfilter'), $capability, $parent_slug, [$this, 'dashboard_page']);
         add_submenu_page($parent_slug, __('Report', 'sfilter'), __('Report', 'sfilter'), $capability, 'sfilter-report', [$this, 'report_page']);
-        add_submenu_page($parent_slug, __('Test Import', 'sfilter'), __('Test Import', 'sfilter'), $capability, 'sfilter-test-import', [$this, 'test_import_page']);
     }
 
     /**
@@ -53,14 +52,4 @@ class Menu
         $settings->report_page();
     }
 
-    /**
-     * SFilter test import page
-     *
-     * @return void
-     */
-    public function test_import_page()
-    {
-        $test_import = new TestImport();
-        $test_import->handle_import();
-    }
 }

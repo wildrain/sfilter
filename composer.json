@@ -13,7 +13,8 @@
   "require": {
     "nesbot/carbon": "2.x-dev",
     "johnbillion/extended-cpts": "dev-develop",
-    "deliciousbrains/wp-background-processing": "dev-master"
+    "deliciousbrains/wp-background-processing": "dev-master",
+    "dompdf/dompdf": "^2.0"
   },
   "autoload": {
     "classmap": [

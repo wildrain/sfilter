@@ -4,22 +4,12 @@ namespace SFilter;
 
 class Installer
 {
-    /**
-     * Initialize class functions
-     *
-     * @return void
-     */
     public function run()
     {
         $this->add_version();
         $this->create_tables();
     }
 
-    /**
-     * Store plugin information
-     *
-     * @return void
-     */
     public function add_version()
     {
         $installed = get_option('sfilter_installed');
@@ -31,11 +21,6 @@ class Installer
         update_option('sfilter_version', SFILTER_VERSION);
     }
 
-    /**
-     * Create custom tables
-     *
-     * @return void
-     */
     public function create_tables()
     {
         global $wpdb;
