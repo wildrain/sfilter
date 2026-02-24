@@ -28,6 +28,9 @@ class Hooks
         // Remove order review (payment methods, etc.)
         add_action('wp', [$this, 'remove_order_review_hooks']);
 
+        // Clear "added to cart" notices on checkout page
+        add_action('wp', [$this, 'clear_cart_notices']);
+
         // Disable the default place order button
         add_filter('woocommerce_order_button_html', '__return_empty_string');
     }
@@ -95,6 +98,18 @@ class Hooks
 
         // Remove theme's order summary hook (Turbo theme)
         remove_all_actions('woocommerce_checkout_after_order_review');
+    }
+
+    /**
+     * Clear WooCommerce "added to cart" notices on checkout page
+     */
+    public function clear_cart_notices()
+    {
+        if (!is_checkout()) {
+            return;
+        }
+
+        wc_clear_notices();
     }
 
     /**
