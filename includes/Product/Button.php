@@ -13,7 +13,7 @@ class Button
         add_filter('woocommerce_is_purchasable', [$this, 'make_purchasable'], 10, 2);
 
         // Redirect directly to checkout after adding to cart
-        add_filter('woocommerce_add_to_cart_redirect', [$this, 'redirect_to_checkout']);
+        // add_filter('woocommerce_add_to_cart_redirect', [$this, 'redirect_to_checkout']);
     }
 
     public function change_button_text($text)

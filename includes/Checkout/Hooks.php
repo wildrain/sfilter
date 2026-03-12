@@ -29,7 +29,7 @@ class Hooks
         add_action('wp', [$this, 'remove_order_review_hooks']);
 
         // Clear "added to cart" notices on checkout page
-        add_action('wp', [$this, 'clear_cart_notices']);
+        // add_action('wp', [$this, 'clear_cart_notices']);
 
         // Disable the default place order button
         add_filter('woocommerce_order_button_html', '__return_empty_string');
