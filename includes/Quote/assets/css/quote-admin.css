@@ -1,0 +1,220 @@
+/**
+ * Quote Admin Styles
+ */
+
+/* Action column in orders list */
+.column-sf_action {
+    width: 120px;
+    text-align: center;
+}
+
+/* Download Quote button in list */
+.sf-download-quote-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    background: #2271b1;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 3px;
+    font-size: 12px;
+    line-height: 1.4;
+    transition: background-color 0.2s ease;
+}
+
+.sf-download-quote-btn:hover {
+    background: #135e96;
+    color: #fff;
+}
+
+.sf-download-quote-btn .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+/* Quote metabox */
+.sf-quote-metabox {
+    padding: 12px;
+}
+
+.sf-quote-metabox .sf-download-quote-btn {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 13px;
+}
+
+.sf-quote-metabox .sf-no-pdf {
+    color: #666;
+    font-style: italic;
+    text-align: center;
+    padding: 10px;
+}
+
+/* Customer fields section */
+.sf-customer-fields {
+    background: #f0f0f1;
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 4px;
+}
+
+.sf-customer-fields h4 {
+    margin: 0 0 12px;
+    padding: 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1d2327;
+}
+
+.sf-customer-fields-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px 20px;
+}
+
+.sf-customer-field {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.sf-customer-field label {
+    font-weight: 600;
+    font-size: 12px;
+    color: #50575e;
+}
+
+.sf-customer-field span {
+    font-size: 13px;
+    color: #1d2327;
+}
+
+/* Assignee field section */
+.sf-assignee-field {
+    background: #fcf9e8;
+    border-left: 4px solid #dba617;
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 0 4px 4px 0;
+}
+
+.sf-assignee-field h4 {
+    margin: 0 0 10px;
+    padding: 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1d2327;
+}
+
+.sf-assignee-field select {
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Assignee field row with button */
+.sf-assignee-field-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.sf-assignee-field-row select,
+.sf-assignee-field-row .select2-container {
+    flex: 1;
+}
+
+/* Save button */
+#sf_assignee_save {
+    position: relative;
+    min-width: 70px;
+    height: 36px;
+}
+
+#sf_assignee_save .sf-btn-loader {
+    display: none;
+}
+
+#sf_assignee_save.sf-loading .sf-btn-text {
+    visibility: hidden;
+}
+
+#sf_assignee_save.sf-loading .sf-btn-loader {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: sf-spin 0.8s linear infinite;
+}
+
+@keyframes sf-spin {
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Toast notification */
+.sf-toast {
+    position: fixed;
+    top: 50px;
+    right: 20px;
+    padding: 12px 20px;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 13px;
+    z-index: 100001;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.sf-toast-show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.sf-toast-success {
+    background: #00a32a;
+}
+
+.sf-toast-error {
+    background: #d63638;
+}
+
+/* Select2 styling for assignee dropdown */
+.sf-assignee-field .select2-container {
+    width: 100% !important;
+}
+
+.sf-assignee-field .select2-container--default .select2-selection--single {
+    height: 36px;
+    border-color: #8c8f94;
+}
+
+.sf-assignee-field .select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 34px;
+    padding-left: 10px;
+}
+
+.sf-assignee-field .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 34px;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 782px) {
+    .sf-customer-fields-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .column-sf_action {
+        width: 100px;
+    }
+}

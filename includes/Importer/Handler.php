@@ -71,6 +71,11 @@ class Handler
         // Normalize header
         $header = array_map('strtolower', array_map('trim', $header));
 
+        // Remove BOM from first column if present
+        if (!empty($header[0])) {
+            $header[0] = $this->remove_bom($header[0]);
+        }
+
         // Validate required columns
         $required = ['sku', 'manufacturer', 'codes'];
         foreach ($required as $col) {
@@ -156,6 +161,10 @@ class Handler
     private function save_cross_ref_batch($sku, $entries, $product_id)
     {
         if (!$product_id) {
+            sf_log("SKU not found: {$sku} (" . count($entries) . " entries skipped)", 'sf-import-crossref-skipped', [
+                'sku' => $sku,
+                'entries_count' => count($entries),
+            ]);
             return ['imported' => 0, 'skipped' => count($entries)];
         }
 
@@ -183,6 +192,11 @@ class Handler
 
         // Normalize header
         $header = array_map('strtolower', array_map('trim', $header));
+
+        // Remove BOM from first column if present
+        if (!empty($header[0])) {
+            $header[0] = $this->remove_bom($header[0]);
+        }
 
         // Validate required columns
         $required = ['sku', 'make', 'model', 'year_from', 'year_to'];
@@ -270,6 +284,10 @@ class Handler
     private function save_application_batch($sku, $entries, $product_id)
     {
         if (!$product_id) {
+            sf_log("SKU not found: {$sku} (" . count($entries) . " entries skipped)", 'sf-import-application-skipped', [
+                'sku' => $sku,
+                'entries_count' => count($entries),
+            ]);
             return ['imported' => 0, 'skipped' => count($entries)];
         }
 
@@ -290,6 +308,15 @@ class Handler
         ));
 
         return $product_id ? (int) $product_id : false;
+    }
+
+    /**
+     * Remove UTF-8 BOM from string
+     */
+    private function remove_bom($string)
+    {
+        $bom = pack('H*', 'EFBBBF'); // UTF-8 BOM bytes
+        return preg_replace("/^$bom/", '', $string);
     }
 
     public function get_messages()

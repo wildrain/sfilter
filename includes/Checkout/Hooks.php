@@ -25,11 +25,11 @@ class Hooks
         // Save order meta
         add_action('woocommerce_checkout_update_order_meta', [$this, 'save_order_meta']);
 
-        // Display PDF link in admin
-        add_action('woocommerce_admin_order_data_after_billing_address', [$this, 'display_admin_pdf_link']);
-
         // Remove order review (payment methods, etc.)
         add_action('wp', [$this, 'remove_order_review_hooks']);
+
+        // Clear "added to cart" notices on checkout page
+        // add_action('wp', [$this, 'clear_cart_notices']);
 
         // Disable the default place order button
         add_filter('woocommerce_order_button_html', '__return_empty_string');
@@ -95,6 +95,21 @@ class Hooks
 
         remove_action('woocommerce_checkout_order_review', 'woocommerce_order_review', 10);
         remove_action('woocommerce_checkout_order_review', 'woocommerce_checkout_payment', 20);
+
+        // Remove theme's order summary hook (Turbo theme)
+        remove_all_actions('woocommerce_checkout_after_order_review');
+    }
+
+    /**
+     * Clear WooCommerce "added to cart" notices on checkout page
+     */
+    public function clear_cart_notices()
+    {
+        if (!is_checkout()) {
+            return;
+        }
+
+        wc_clear_notices();
     }
 
     /**
@@ -121,6 +136,12 @@ class Hooks
             /* Theme coupon form */
             body.woocommerce-checkout .checkout-coupon-wrapper,
             body.woocommerce-checkout .coupon-error,
+
+            /* Theme order summary - target the container div with the h4 and summary */
+            body.woocommerce-checkout .turbo-checkout-order-summary,
+            body.woocommerce-checkout div:has(> .turbo-checkout-order-summary),
+            body.woocommerce-checkout div.mt-8:has(.turbo-checkout-order-summary),
+            body.woocommerce-checkout div[class*="mt-8"]:has(.turbo-checkout-order-summary),
 
             /* Order review/summary */
             .woocommerce-checkout #order_review,
@@ -154,7 +175,41 @@ class Hooks
             .woocommerce-checkout .sf-checkout-form-wrapper {
                 grid-column: 1 / -1;
             }
+
+            /* Hide coupon and order summary sections */
+            .sf-hidden-section {
+                display: none !important;
+            }
         </style>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Hide coupon section - find by input placeholder and hide its row
+                var couponInputs = document.querySelectorAll('input[placeholder*="coupon" i], input[placeholder*="كوبون" i]');
+                couponInputs.forEach(function(input) {
+                    // Find the flex row containing both input and button
+                    var row = input.closest('div');
+                    while (row && row.parentElement) {
+                        var hasButton = row.querySelector('button');
+                        var hasInput = row.querySelector('input');
+                        if (hasButton && hasInput) {
+                            row.classList.add('sf-hidden-section');
+                            break;
+                        }
+                        row = row.parentElement;
+                    }
+                });
+
+                // Hide ORDER SUMMARY section - target turbo-checkout-order-summary and its parent
+                var orderSummary = document.querySelector('.turbo-checkout-order-summary');
+                if (orderSummary) {
+                    // Hide the parent div that contains both h4 and the summary
+                    var parent = orderSummary.parentElement;
+                    if (parent) {
+                        parent.classList.add('sf-hidden-section');
+                    }
+                }
+            });
+        </script>
         <?php
     }
 
@@ -174,38 +229,4 @@ class Hooks
         }
     }
 
-    /**
-     * Display PDF download link in admin order page
-     *
-     * @param \WC_Order $order
-     */
-    public function display_admin_pdf_link($order)
-    {
-        $pdf_url = get_post_meta($order->get_id(), '_sf_quotation_pdf_url', true);
-
-        if (!empty($pdf_url)) {
-            echo '<p><strong>' . __('Quotation PDF:', 'sfilter') . '</strong><br>';
-            echo '<a href="' . esc_url($pdf_url) . '" target="_blank" class="button">';
-            echo __('View Quotation PDF', 'sfilter');
-            echo '</a></p>';
-        }
-
-        // Display custom fields
-        $fields = Fields::get_fields();
-        echo '<div class="sf-custom-fields" style="margin-top: 15px;">';
-        echo '<h4>' . __('Customer Information', 'sfilter') . '</h4>';
-
-        foreach ($fields as $key => $field) {
-            $value = get_post_meta($order->get_id(), '_' . $key, true);
-            if (!empty($value)) {
-                if ($key === 'sf_region') {
-                    $regions = Fields::get_regions();
-                    $value = isset($regions[$value]) ? $regions[$value] : $value;
-                }
-                echo '<p><strong>' . esc_html($field['label']) . ':</strong> ' . esc_html($value) . '</p>';
-            }
-        }
-
-        echo '</div>';
-    }
 }
