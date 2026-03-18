@@ -1,0 +1,30 @@
+{
+  "name": "wildrain/sfilter",
+  "description": "Helper plugin for Saudi Filter",
+  "type": "wordpress-plugin",
+  "license": "GPLv2",
+  "authors": [
+    {
+      "name": "wildrain",
+      "email": "roman.ul.ferdosh@gmail.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "nesbot/carbon": "2.x-dev",
+    "johnbillion/extended-cpts": "dev-develop",
+    "deliciousbrains/wp-background-processing": "dev-master",
+    "dompdf/dompdf": "^2.0"
+  },
+  "autoload": {
+    "classmap": [
+      "includes"
+    ],
+    "psr-4": {
+      "SFilter\\": "includes/"
+    },
+    "files": [
+      "includes/functions.php"
+    ]
+  }
+}

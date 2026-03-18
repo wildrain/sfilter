@@ -1,0 +1,10 @@
+sku,make,model,year_from,year_to
+FILTER-001,Toyota,Camry,2015,2020
+FILTER-001,Honda,Accord,2018,2023
+FILTER-001,Nissan,Altima,2016,2021
+FILTER-002,Ford,F-150,2017,2022
+FILTER-002,Chevrolet,Silverado,2016,2021
+FILTER-003,BMW,3 Series,2019,2024
+FILTER-003,Mercedes-Benz,C-Class,2018,2023
+TEST-SKU-001,Toyota,Corolla,2020,2025
+TEST-SKU-001,Honda,Civic,2019,2024

@@ -1,0 +1,50 @@
+.sf-pb-metabox .sf-pb-table {
+    margin-bottom: 10px;
+}
+
+.sf-pb-metabox .sf-pb-table th,
+.sf-pb-metabox .sf-pb-table td {
+    padding: 10px;
+    vertical-align: top;
+}
+
+.sf-pb-metabox .sf-pb-table th:first-child,
+.sf-pb-metabox .sf-pb-table td:first-child {
+    width: 30%;
+}
+
+.sf-pb-metabox .sf-pb-col-action {
+    width: 50px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.sf-pb-metabox .sf-pb-table textarea {
+    width: 100%;
+    resize: vertical;
+}
+
+.sf-pb-metabox .sf-pb-remove-row {
+    color: #d63638;
+    border-color: #d63638;
+    min-width: 30px;
+}
+
+.sf-pb-metabox .sf-pb-remove-row:hover {
+    background: #d63638;
+    color: #fff;
+}
+
+/* Application metabox */
+.sf-pb-application .sf-pb-table th:first-child,
+.sf-pb-application .sf-pb-table td:first-child {
+    width: auto;
+}
+
+.sf-pb-metabox .sf-pb-col-year {
+    width: 100px;
+}
+
+.sf-pb-application input[type="number"] {
+    width: 100%;
+}
