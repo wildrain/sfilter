@@ -85,7 +85,8 @@ if (!$product) {
         <?php endif; ?>
 
         <?php if (!empty($settings['show_add_to_cart']) && $settings['show_add_to_cart'] === 'yes') : ?>
-            <div class="msf-product-card__actions">
+            <?php $button_position = !empty($settings['button_position']) ? $settings['button_position'] : 'right'; ?>
+            <div class="msf-product-card__actions<?php echo $button_position === 'left' ? ' msf-product-card__actions--button-left' : ''; ?>">
                 <?php if (!empty($settings['show_quantity_selector']) && $settings['show_quantity_selector'] === 'yes'
                     && $product->is_purchasable() && $product->is_in_stock() && $product->is_type('simple')) : ?>
                     <div class="msf-product-card__quantity">

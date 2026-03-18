@@ -356,6 +356,17 @@ class ProductSearchFilter extends Widget_Base
             'condition' => ['show_add_to_cart' => 'yes'],
         ]);
 
+        $this->add_control('button_position', [
+            'label'   => __('Button Position', 'sfilter'),
+            'type'    => Controls_Manager::SELECT,
+            'options' => [
+                'left'  => __('Left', 'sfilter'),
+                'right' => __('Right', 'sfilter'),
+            ],
+            'default'   => 'right',
+            'condition' => ['show_add_to_cart' => 'yes'],
+        ]);
+
         $this->end_controls_section();
 
         // --- Pagination Section ---
@@ -733,6 +744,8 @@ class ProductSearchFilter extends Widget_Base
             'show_quantity_selector' => !empty($settings['show_quantity_selector']) && $settings['show_quantity_selector'] === 'yes' ? 'yes' : '',
             'cart_button_type'      => !empty($settings['cart_button_type']) ? $settings['cart_button_type'] : 'text',
             'toggle_icon_position'  => !empty($settings['toggle_icon_position']) ? $settings['toggle_icon_position'] : 'right',
+            'button_text'           => !empty($settings['button_text']) ? $settings['button_text'] : __('Add to Cart', 'sfilter'),
+            'button_position'       => !empty($settings['button_position']) ? $settings['button_position'] : 'right',
         ];
 
         include __DIR__ . '/templates/wrapper.php';

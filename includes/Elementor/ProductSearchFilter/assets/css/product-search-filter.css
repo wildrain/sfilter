@@ -5,6 +5,9 @@
 /* Wrapper */
 .msf-wrapper {
     position: relative;
+    padding: 0 16px;
+    box-sizing: border-box;
+    max-width: 100%;
 }
 
 /* Left/right sidebar layout */
@@ -469,6 +472,11 @@
     align-items: center;
     flex-wrap: nowrap;
     gap: 8px;
+}
+
+.msf-product-card__actions--button-left {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
 }
 
 .msf-product-card__button {

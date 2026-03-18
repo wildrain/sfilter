@@ -330,9 +330,10 @@
                     show_rating:        'yes',
                     show_stock_status:  '',
                     show_add_to_cart:   'yes',
-                    button_text:        'Add to Cart',
+                    button_text:        this.settings.button_text || 'Add to Cart',
                     show_quantity_selector: this.settings.show_quantity_selector || '',
-                    cart_button_type: this.settings.cart_button_type || 'text'
+                    cart_button_type: this.settings.cart_button_type || 'text',
+                    button_position: this.settings.button_position || 'right'
                 }
             };
 
